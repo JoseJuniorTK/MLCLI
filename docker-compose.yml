@@ -1,0 +1,15 @@
+services:
+  mlcli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - USER_ID=${UID:-1000}
+        - GROUP_ID=${GID:-1000}
+    volumes:
+      - ./:/app
+    entrypoint: ["python", "cli.py"]
+    command: >
+      bash -c "pip install -r requirements.txt && tail -f /dev/null"
+    environment:
+      - PYTHONPATH=/app 

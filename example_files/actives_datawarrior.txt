@@ -1,0 +1,9 @@
+Structure of smiles [idcode]	smiles	name	Total Molweight	cLogP	cLogS	H-Acceptors	H-Donors	Total Surface Area	Relative PSA	Polar Surface Area	Druglikeness	Shape Index	Molecular Flexibility	Molecular Complexity	Rotatable Bonds	
+figp`@MNFAfRJIQEZIQZJQJtXJUg]GPTARuATAD@@@	c1(nc(c([nH]1)c1ccncc1)c1ccc2OCCOc2c1)C(C)(C)C	LocE_1_rank1.pdb	335.406	3.7695	-3.818	5	1	261.08	0.21423	60.03	-10.877	0.48	0.39396	0.85557	3	
+ek`VD@@DFHbfc`CLbbbdTUbJtRbttRtL\|rJvNZjhJ@iZ`HH`@@	c1(cc2c(cc1)OCCN2C(=O)C(C)(C)N)c1c([nH]c(n1)N)c1c(C)cncc1	LocE_2_rank1.pdb	392.462	1.6143	-4.421	8	3	296.17	0.31421	123.15	4.1311	0.44828	0.41213	0.91408	3	
+fewqB@@ifHD`drnkJw[]kQeoIJN\@EPACT`@D@@@	c1(cccc(c1)c1n[nH]cc1c1ccncc1)OCc1ccc(F)cc1	LocE_3_rank1.pdb	345.376	3.4106	-4.913	4	1	269.74	0.17028	50.8	-0.093991	0.61538	0.457	0.7971	5	
+ek`RH@@GDje`LdTRRbfRffTQaRbxtlbRJfVhH@`Fbg@B``@@	c1(cccc(c1)OCc1cccc(c1)C#N)c1c(c[nH]n1)c1cc(C)nc(c1)C	LocE_4_rank1.pdb	380.45	3.9412	-6.108	5	1	309.62	0.19214	74.59	-3.0873	0.55172	0.46525	0.82089	5	
+figqb@NFKfoPAFRJJJUQJIIJIMDiKPRi[TmMTE@rUL@@@	c1(c([nH]c2c1c(=O)[nH]c(=O)[nH]2)c1ccc(C)s1)c1ccc(cc1)OC	LocE_5_rank1.pdb	353.401	3.3749	-6.309	6	3	257.73	0.3622	111.46	5.2453	0.48	0.3339	0.92616	3	
+fewqb@AVjUhpAFRJJJqJIQIIQIkEEFcWOZYjZhJAdjX@@	c1(c([nH]c2c1c(=O)[nH]c(=O)[nH]2)c1c(C)sc(C)c1)c1ccc(cc1)OC	LocE_6_rank1.pdb	367.428	3.5619	-6.742	6	3	269.99	0.34575	111.46	4.4213	0.46154	0.33618	0.94128	3	
+fcPc@CCStD`bPqHYEHXdldhdmDhhdQRCFhu{j`@jjjhF@J@@@	N1(CCC2(CC1)OC(=O)Nc1ccccc21)CCc1ccc(cc1)C(F)(F)F	LocE_7_rank1.pdb	390.404	4.0867	-4.717	4	1	277.96	0.13689	41.57	-8.9785	0.57143	0.4234	0.8584	4	
+f`qpB@NBT@HRYeeWedc^``XjjH@@	c1(cc(c(cc1)C1=NCCCN1)S)N(C)C	LocE_8_rank1.pdb	235.354	1.2099	-3.235	3	1	186.15	0.26393	66.43	0.24448	0.625	0.48118	0.73284	2	
