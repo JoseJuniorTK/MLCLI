@@ -47,29 +47,28 @@ def process_all_models(input_file, models_dir):
     """
     # Load all model files from the directory
     loaded_models = {}
-    model_files = [f for f in os.listdir(models_dir) if f.endswith('_model.pkl')]
+    model_files = [f for f in os.listdir(models_dir) if f.endswith('.pkl')]
     
     if not model_files:
         raise ValueError(f"No model files found in {models_dir}")
     
-    # Extract model types from filenames (e.g., 'prefix_LR_model.pkl' -> 'LR')
+    # Load all model files
     for model_file in model_files:
-        # Extract model type using regex to find the part before _model.pkl
-        match = re.search(r'_(\w+)_model\.pkl$', model_file)
-        if match:
-            model_type = match.group(1)
-            model_path = os.path.join(models_dir, model_file)
-            
-            # Skip if model type already loaded (take the first one found)
-            if model_type not in loaded_models:
-                try:
-                    # Suppress version warning when loading models
-                    with warnings.catch_warnings():
-                        warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
-                        with open(model_path, 'rb') as file:
-                            loaded_models[model_type] = pickle.load(file)
-                except Exception as e:
-                    print(f"Error loading {model_file}: {str(e)}")
+        model_path = os.path.join(models_dir, model_file)
+        try:
+            # Suppress version warning when loading models
+            with warnings.catch_warnings():
+                warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
+                with open(model_path, 'rb') as file:
+                    loaded_object = pickle.load(file)
+                    # Check if the object has predict_proba method (is a classifier model)
+                    if hasattr(loaded_object, 'predict_proba') and callable(getattr(loaded_object, 'predict_proba')):
+                        loaded_models[model_file] = loaded_object
+                        print(f"Loaded model: {model_file}")
+                    else:
+                        print(f"Skipped non-model file: {model_file}")
+        except Exception as e:
+            print(f"Error loading {model_file}: {str(e)}")
     
     if not loaded_models:
         raise ValueError(f"No valid models found in {models_dir}")

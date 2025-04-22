@@ -52,8 +52,13 @@ coverage.xml
 *.cover
 
 # Project specific
-output/
-data/processed/
+# Exclude content but include directories with .gitkeep
+output/*
+!output/.gitkeep
+data/*
+!data/.gitkeep
+metrics/*
+!metrics/.gitkeep
 .env.local
 .env.development.local
 .env.test.local
