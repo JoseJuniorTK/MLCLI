@@ -22,6 +22,10 @@ ENV PYTHONPATH=/app
 # Create necessary directories if they don't exist
 RUN mkdir -p models metrics data output
 
+# Create entrypoint script
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Add a non-root user with same UID/GID as the host user (typically 1000)
 ARG USER_ID=1000
 ARG GROUP_ID=1000
@@ -32,4 +36,6 @@ RUN groupadd -g ${GROUP_ID} appuser && \
 # Set correct permissions for output directory
 RUN chown -R appuser:appuser /app/output
 
-USER appuser 
+USER appuser
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"] 

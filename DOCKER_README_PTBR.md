@@ -4,7 +4,7 @@ Este guia explica como executar a Ferramenta CLI de Pipeline de ML usando Docker
 
 ## Pré-requisitos
 
-- Docker instalado em seu sistema (https://docs.docker.com/engine/install/ubuntu/)
+- Docker instalado em seu sistema (https://docs.docker.com/engine/install/ubuntu/ e https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
 - Docker Compose instalado em seu sistema (https://docs.docker.com/compose/install/linux/#install-using-the-repository)
 
 ## Primeiros Passos
@@ -20,19 +20,48 @@ docker compose up -d
 
 ## Executando os Workflows
 
-Execute os comandos diretamente com a sintaxe simplificada:
+### Opção 1: Usando o script auxiliar (Recomendado)
+
+Um script auxiliar `ml-cli.sh` é fornecido para uso simplificado:
 
 ```bash
-# Create model
-docker compose exec mlcli create-model \
+# Torne o script executável (apenas na primeira vez)
+chmod +x ml-cli.sh
+
+# Obter ajuda
+./ml-cli.sh --help
+
+# Criar modelo
+./ml-cli.sh create-model \
   --actives-datawarrior example_files/actives_datawarrior.txt \
   --decoys-datawarrior example_files/decoys_datawarrior.txt \
   --actives-consolidated example_files/active_consolidated.csv \
   --decoys-consolidated example_files/decoys_consolidated.csv \
   --output prefixo_da_saida
 
-# Predict
-docker compose exec mlcli predict \
+# Prever
+./ml-cli.sh predict \
+  --input-data example_files/data_sem_outliers.csv \
+  --output nome_saida
+```
+
+O script iniciará automaticamente o contêiner se ele não estiver em execução.
+
+### Opção 2: Usando o Docker Compose diretamente
+
+Execute os comandos com o Docker Compose:
+
+```bash
+# Criar modelo
+docker compose exec mlcli python cli.py create-model \
+  --actives-datawarrior example_files/actives_datawarrior.txt \
+  --decoys-datawarrior example_files/decoys_datawarrior.txt \
+  --actives-consolidated example_files/active_consolidated.csv \
+  --decoys-consolidated example_files/decoys_consolidated.csv \
+  --output prefixo_da_saida
+
+# Prever
+docker compose exec mlcli python cli.py predict \
   --input-data example_files/data_sem_outliers.csv \
   --output nome_saida
 ```
@@ -40,7 +69,7 @@ docker compose exec mlcli predict \
 Você também pode especificar um diretório de modelos personalizado:
 
 ```bash
-docker compose exec mlcli predict \
+./ml-cli.sh predict \
   --input-data example_files/data_sem_outliers.csv \
   --model-dir caminho/personalizado/modelos \
   --output nome_saida
@@ -66,7 +95,3 @@ O container Docker monta o diretório do projeto em `/app` dentro do container. 
 ## Dados de Exemplo
 
 Arquivos de dados de exemplo estão disponíveis no diretório `example_files/`. Você pode usar estes para testar os workflows. 
-
-## Compatibilidade de Versões
-
-Este projeto utiliza scikit-learn versão 1.3.2. Avisos de incompatibilidade de versão ao carregar modelos serão automaticamente suprimidos pelo código. Se você precisar usar modelos treinados com outras versões do scikit-learn, pode ser necessário retreinar os modelos com a versão atual. 
