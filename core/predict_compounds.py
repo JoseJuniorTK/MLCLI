@@ -17,7 +17,6 @@ def process_all_models(input_file, models_dir):
     Returns:
         pandas.DataFrame: DataFrame with prediction results and consensus.
     """
-    model_types = ['LR', 'NB', 'DT', 'RF', 'SVM', 'XGB']
     loaded_models = {}
     model_files = [f for f in os.listdir(models_dir) if f.endswith('.pkl')]
 
