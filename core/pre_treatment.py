@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 
 def process(input_file):
@@ -33,10 +32,10 @@ def process(input_file):
     variances = df_filtered.var()
     variance_threshold = 0.01
     columns_to_keep = variances[variances >= variance_threshold].index
-    df_var = df_filtered[columns_to_keep]
-    
+    df_var = df_filtered[columns_to_keep].copy()
+
     # Add back the name and activity columns
     df_var.insert(0, 'name', df_name)
-    df_var.loc[:, 'atividade'] = df_atividade
+    df_var['atividade'] = df_atividade
     
     return df_var 

@@ -5,76 +5,51 @@ import re
 import warnings
 from sklearn.exceptions import InconsistentVersionWarning
 
-def process(input_file, model_prefix, models_dir):
-    """
-    Make predictions using trained models with a specific path.
-    This is based on 5_prediction_ml.py.
-    
-    Args:
-        input_file (str): Path to the input CSV file with compounds to predict.
-        model_prefix (str): Prefix for model files to use.
-        models_dir (str): Directory containing model files.
-    
-    Returns:
-        pandas.DataFrame: DataFrame with prediction results and consensus.
-    """
-    # Load models
-    loaded_models = {}
-    for model_type in ['LR', 'NB', 'DT', 'RF', 'SVM', 'XGB']:
-        model_path = os.path.join(models_dir, f"{model_prefix}_{model_type}_model.pkl")
-        if os.path.exists(model_path):
-            # Suppress version warning when loading models
-            with warnings.catch_warnings():
-                warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
-                with open(model_path, 'rb') as file:
-                    loaded_models[model_type] = pickle.load(file)
-    
-    if not loaded_models:
-        raise ValueError(f"No models found with prefix '{model_prefix}' in {models_dir}")
-    
-    return _process_with_models(input_file, loaded_models)
 
 def process_all_models(input_file, models_dir):
     """
     Make predictions using all available trained models in the models directory.
-    
+
     Args:
         input_file (str): Path to the input CSV file with compounds to predict.
         models_dir (str): Directory containing model files.
-    
+
     Returns:
         pandas.DataFrame: DataFrame with prediction results and consensus.
     """
-    # Load all model files from the directory
+    model_types = ['LR', 'NB', 'DT', 'RF', 'SVM', 'XGB']
     loaded_models = {}
     model_files = [f for f in os.listdir(models_dir) if f.endswith('.pkl')]
-    
+
     if not model_files:
         raise ValueError(f"No model files found in {models_dir}")
-    
-    # Load all model files
+
     for model_file in model_files:
         model_path = os.path.join(models_dir, model_file)
         try:
-            # Suppress version warning when loading models
+            match = re.search(r'_(LR|NB|DT|RF|SVM|XGB)_', model_file)
+            if not match:
+                continue
+
+            model_type = match.group(1)
+            if model_type in loaded_models:
+                continue
+
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
                 with open(model_path, 'rb') as file:
                     loaded_object = pickle.load(file)
-                    # Check if the object has predict_proba method (is a classifier model)
                     if hasattr(loaded_object, 'predict_proba') and callable(getattr(loaded_object, 'predict_proba')):
-                        loaded_models[model_file] = loaded_object
-                        print(f"Loaded model: {model_file}")
-                    else:
-                        print(f"Skipped non-model file: {model_file}")
+                        loaded_models[model_type] = loaded_object
+                        print(f"Loaded model: {model_type} from {model_file}")
         except Exception as e:
             print(f"Error loading {model_file}: {str(e)}")
-    
+
     if not loaded_models:
         raise ValueError(f"No valid models found in {models_dir}")
-    
+
     print(f"Loaded {len(loaded_models)} models: {', '.join(loaded_models.keys())}")
-    
+
     return _process_with_models(input_file, loaded_models)
 
 def _process_with_models(input_file, loaded_models):

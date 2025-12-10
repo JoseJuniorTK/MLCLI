@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import GridSearchCV, StratifiedKFold, train_test_split
@@ -9,8 +8,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from xgboost import XGBClassifier
 from sklearn.metrics import (
-    classification_report, confusion_matrix, roc_auc_score,
-    matthews_corrcoef, cohen_kappa_score, accuracy_score
+    confusion_matrix, roc_auc_score,
+    matthews_corrcoef, cohen_kappa_score
 )
 from imblearn.over_sampling import SMOTE
 
@@ -66,13 +65,6 @@ def process(input_file):
         best_models[name] = grid_search.best_estimator_
         best_score = grid_search.best_score_
         scores[name] = best_score
-    
-    # Create results DataFrame
-    results_df = pd.DataFrame({
-        'Model': list(models_params.keys()),
-        'Best Model': [str(best_models[name]) for name in best_models.keys()],
-        'Accuracy': [scores[name] for name in scores.keys()]
-    })
     
     # Dictionary for metrics
     metrics_dict = {
